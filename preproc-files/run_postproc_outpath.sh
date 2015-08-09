@@ -1,7 +1,7 @@
 #!/bin/bash
 
-tptd="PTD1"
-##tptd="PTD2"
+##tptd="PTD1"
+tptd="PTD2"
 
 fnumi="lst_numissl_${tptd}.txt"
 fdb="${tptd}_BASA_CLD.GDB_age_num_first.sqlite"
@@ -36,7 +36,7 @@ do
 ##	tAgeIsslFirst=`echo "$ll" | cut -d\| -f 5`
 ##	tNumberkart=`echo "$ll" | cut -d\| -f 2`
 ##	tNumberIssl=`echo "$ll" | cut -d\| -f 3`
-	fpngOUT="${tNumIssl}/${tAgeIsslFirst}_${tPol}/${tNumberkart}_${tNumberIssl}_orig.png"
+	fpngOUT="${tNumIssl}/${tAgeIsslFirst}_${tPol}/${tNumberkart}/${tNumberkart}_${tNumberIssl}_orig.dcm.png"
 	echo "$fpngOUT" >> $fout
     done
     echo "---> make [$foutp]"
