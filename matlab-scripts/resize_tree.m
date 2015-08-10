@@ -24,6 +24,10 @@ end
 % % % % % % % % % % % % % % % % % % % % % 
 for nn=1:numNUM
     tnum=dataNUM(nn);
+    fprintf(':: %d: processing (%d)\n', nn, tnum);
+    if tnum<2
+        continue;
+    end
     fcsvPathINP=sprintf('%s/csv_by_numissl_%s/exp_%d.csv-path.txt', dirCFG,tptd,tnum);
     lstPathINP=textread(fcsvPathINP, '%s');
     lstPathINP={lstPathINP{2:end}};
@@ -61,5 +65,4 @@ for nn=1:numNUM
            end
         end
     end
-    disp(nn);
 end
