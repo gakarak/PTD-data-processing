@@ -68,7 +68,10 @@ def deepCopy(finp, fout):
     if not os.path.isfile(fout):
         bdir=os.path.dirname(fout)
         if not os.path.isdir(bdir):
-            os.makedirs(bdir)
+            try:
+                os.makedirs(bdir)
+            except:
+                pass
         shutil.copy2(finp, fout)
 
 def readLines(ftxt):
