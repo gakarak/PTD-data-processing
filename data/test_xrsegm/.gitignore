@@ -1,0 +1,4 @@
+*.jpg_proc_pts.csv
+*.jpg_proc_masked.png
+*.jpg_proc_mask.png
+*.jpg_proc.err
