@@ -9,10 +9,12 @@ import sys
 import numpy as np
 import cv2
 from skimage import io
-import skimage.filter
+import skimage.filters
 import sklearn.metrics as MT
 import shutil
 import multiprocessing as mp
+
+import pandas as pd
 
 import matplotlib.pyplot as plt
 
@@ -149,7 +151,7 @@ class RegisterXray:
     """
     def adjustImage(self, img, perc):
         im = img.astype(np.float)
-        tbrd=math.floor(0.1*np.min(im.shape))
+        tbrd=int(math.floor(0.1*np.min(im.shape)))
         imc=im[tbrd:-tbrd, tbrd:-tbrd]
         q0, q1 = np.percentile(imc[:], [perc, 100.0-perc])
         imm=np.max(im[:])
@@ -212,7 +214,7 @@ class RegisterXray:
             os.system(strRun1)
             # tmsk=cv2.imread(toutMsk, cv2.IMREAD_GRAYSCALE).astype(np.float)/255.0
             tmsk=cv2.imread(toutMsk, 0).astype(np.float)/255.0
-            tmsk=skimage.filter.gaussian_filter(tmsk, 0.5)
+            tmsk=skimage.filters.gaussian(tmsk, 0.5)
             # timg=cv2.imread(toutImg, cv2.IMREAD_GRAYSCALE).astype(np.float)
             timg=cv2.imread(toutImg, 0).astype(np.float)
             curCorr=np.corrcoef(img[20:-20].reshape(-1), timg[20:-20].reshape(-1))[0,1]
@@ -301,9 +303,9 @@ def test_main():
 
 #################################
 if __name__=="__main__":
-    test_main()
+##    test_main()
 
-    sys.exit(1)
+##    sys.exit(1)
     if len(sys.argv)<3:
         print "Usage: %s {/path/to/xray-DB} {/path/to/file-list.csv}" % os.path.basename(sys.argv[0])
         sys.exit(1)
@@ -319,9 +321,12 @@ if __name__=="__main__":
         print "ERROR: Can't load Xray-DB [%s], exit... " % dirXrayDB
         sys.exit(2)
     #
-    f=open(fnCSV)
-    lst_fimg=f.readlines()
-    f.close()
+    lst_fimg = pd.read_csv(fnCSV, header=None)[0].as_matrix()
+    lst_fimg = np.array([os.path.join(os.path.dirname(fnCSV), xx) for xx in lst_fimg])
+
+    # f=open(fnCSV)
+    # lst_fimg=f.readlines()
+    # f.close()
     if len(lst_fimg)<1:
         print "Error: bad CSV file [%s]" % fnCSV
         sys.exit(3)
